@@ -5,10 +5,10 @@
   "DATA": {
     "agent": {
       "uid": 3801225130571,
-      "key": "DevelopmentDeva",
+      "key": "development",
       "prompt": {
         "emoji": "🔧",
-        "text": "DevelopmentDeva",
+        "text": "development",
         "colors": {
           "label": {
             "R": 76,

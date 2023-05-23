@@ -1,21 +1,21 @@
 ## Development Deva
 
-p:Copyright (c)2023 Quinn Michaels
-
 p:This is the main help file for Development Deva. Providing support to deva.world.
 
 id: 3801225130571
-key: DevelopmentDeva
+key: development
 name: Development Deva
 describe: Providing support to deva.world.
 
 ### Methods
 
-cmd:#DevelopmentDeva uid
+cmd:#development uid
 p:Generate a unique id from the Development Deva.
 
-cmd:#DevelopmentDeva status
+cmd:#development status
 p:Return the status for the Development Deva.
 
-cmd:#DevelopmentDeva help
+cmd:#development help
 p:Get help using the Development Deva
+
+p:Copyright (c)2023 Quinn Michaels
