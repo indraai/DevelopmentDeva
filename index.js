@@ -47,7 +47,7 @@ const DEVELOPMENT = new Deva({
     dev_question(packet) {
       const agent = this.agent();
       const development = this.development();
-      development.personal.answers.push(packet);
+      development.personal.questions.push(packet);
     },
     dev_answer(packet) {
       const agent = this.agent();
