@@ -5,20 +5,20 @@
   "DATA": {
     "agent": {
       "id": 3801225130571,
-      "key": "development",
+      "key": "dev",
       "prompt": {
         "emoji": "🔧",
-        "text": "development",
+        "text": "dev",
         "colors": {
           "label": {
-            "R": 76,
-            "G": 252,
-            "B": 146
+            "R": 255,
+            "G": 186,
+            "B": 88
           },
           "text": {
-            "R": 76,
-            "G": 252,
-            "B": 146
+            "R": 255,
+            "G": 186,
+            "B": 88
           }
         }
       },
@@ -45,7 +45,26 @@
         "done": "🟣 DONE",
         "error": "💣 ERROR!"
       },
-      "trigger": "@DEVELOPMENT"
+      "trigger": "@DEVELOPMENT",
+      "route": "api",
+      "template": {
+        "header": {
+          "call": "#docs view devas/development/main:header",
+          "begin": "::BEGIN:HEADER",
+          "end": "::END:HEADER"
+        },
+        "footer": {
+          "call": "#docs view devas/development/main:footer",
+          "begin": "::BEGIN:FOOTER",
+          "end": "::END:FOOTER"
+        },
+        "content": {
+          "greeting": "#docs view devas/development/main:greeting",
+          "signature": "#docs view devas/development/main:signature",
+          "begin": "::BEGIN:DEVELOPMENT",
+          "end": "::END:DEVELOPMENT"
+        }
+      }
     }
   }
 }
