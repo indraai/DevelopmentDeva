@@ -55,12 +55,10 @@ const DEVELOPMENT = new Deva({
     dev_question(packet) {
       const agent = this.agent();
       const development = this.development();
-      development.personal.questions.push(packet);
     },
     dev_answer(packet) {
       const agent = this.agent();
       const development = this.development();
-      development.personal.answers.push(packet);
     },
     async template(packet, route) {
       const agent = this.agent();
@@ -80,8 +78,7 @@ const DEVELOPMENT = new Deva({
       const footer_parsed = this._agent.parse(footer.a.text, route);
       const footer_hash = this.hash(footer_parsed);
       const message_parsed = this._agent.parse(message, route);
-      const message_hash = this.hash(message_parsed)
-
+      const message_hash = this.hash(message_parsed);
       const template = [
         `${this.vars.template.header.begin}:${header.id}`,
         header_parsed,
@@ -104,9 +101,11 @@ const DEVELOPMENT = new Deva({
       const local_route = param || this.vars.route;
       const route = this.config.routes[local_route];
       const question = await this.func.template(packet, route);
+      let question_puppet = false;
+      if (route.puppet_key) question_puppet = await this.func.template(packet, this.config.routes[route.puppet_key]);
       return new Promise((resolve, reject) => {
         if (!packet.q.text) return resolve(this._messages.notext);
-        if (!param && route.puppet) this.question(`${route.puppet} ${question}`)
+        if (!param && route.puppet_key) this.question(`${route.puppet} ${question_puppet}`)
         this.question(`${route.call} ${question}`).then(answer => {
           return this.question(`#feecting parse ${answer.a.text}`);
         }).then(parsed => {

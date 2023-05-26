@@ -54,7 +54,7 @@
           "end": "::END:HEADER"
         },
         "footer": {
-          "call": "#docs view devas/development/main:footer",
+          "call": "#docs view devas/main:footer",
           "begin": "::BEGIN:FOOTER",
           "end": "::END:FOOTER"
         },
