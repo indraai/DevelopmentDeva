@@ -45,6 +45,9 @@ const DEVELOPMENT = new Deva({
         output = output.replace(key, value);
       }
       return output.trim();
+    },
+    process(input) {
+      return input.trim();
     }
   },
   vars,
