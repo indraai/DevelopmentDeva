@@ -12,6 +12,7 @@ const info = {
   describe: package.description,
   version: package.version,
   url: package.homepage,
+  dir: __dirname,
   git: package.repository.url,
   bugs: package.bugs.url,
   author: package.author,
@@ -28,23 +29,13 @@ const DEVELOPMENT = new Deva({
   agent: {
     id: agent.id,
     key: agent.key,
-    describe: agent.describe,
     prompt: agent.prompt,
-    voice: agent.voice,
     profile: agent.profile,
     translate(input) {
       return input.trim();
     },
-    parse(input, route=false) {
-      // with the parse method we are going to take the input with a
-      // values object to provide the personalization
-      let output = input;
-      if (route) for (let x in route) {
-        const key = `::${x}::`;
-        const value = route[x];
-        output = output.replace(key, value);
-      }
-      return output.trim();
+    parse(input) {
+      return input.trim();
     },
     process(input) {
       return input.trim();
@@ -55,82 +46,28 @@ const DEVELOPMENT = new Deva({
   modules: {},
   deva: {},
   func: {
-    dev_question(packet) {
+    dev_question(packet) {return;},
+    dev_answer(packet) {return;},
+  },
+  methods: {
+    /**************
+    method: issue
+    params: packet
+    describe: create a new issue for the main deva.world through github agent.
+    ***************/
+    issue(packet) {
       const agent = this.agent();
-      const development = this.development();
-    },
-    dev_answer(packet) {
-      const agent = this.agent();
-      const development = this.development();
-    },
-    async template(packet, route) {
-      const agent = this.agent();
-      const header = await this.question(this.vars.template.header.call);
-      const footer = await this.question(this.vars.template.footer.call);
-      const greeting = await this.question(this.vars.template.content.greeting);
-      const signature = await this.question(this.vars.template.content.signature);
-      const message = [
-        greeting.a.text,
-        '',
-        packet.q.text,
-        '',
-        signature.a.text,
-      ].join('\n');
-      const header_parsed = this._agent.parse(header.a.text, route);
-      const header_hash = this.hash(header_parsed);
-      const footer_parsed = this._agent.parse(footer.a.text, route);
-      const footer_hash = this.hash(footer_parsed);
-      const message_parsed = this._agent.parse(message, route);
-      const message_hash = this.hash(message_parsed);
-      const template = [
-        `${this.vars.template.header.begin}:${header.id}`,
-        header_parsed,
-        `${this.vars.template.header.end}:${header_hash}`,
-        '',
-        `${this.vars.template.content.begin}:${packet.id}`,
-        '',
-        message_parsed,
-        '',
-        `${this.vars.template.content.end}:${message_hash}`,
-        '',
-        `${this.vars.template.footer.begin}${footer.id}`,
-        footer_parsed,
-        `${this.vars.template.footer.end}:${this.hash(footer_hash)}`,
-      ].join('\n');
-      return template;
-    },
-    async chat(packet) {
-      const param = packet.q.meta.params[1] || false;
-      const local_route = param || this.vars.route;
-      const route = this.config.routes[local_route];
-      const question = await this.func.template(packet, route);
-      let question_puppet = false;
-      if (route.puppet_key) question_puppet = await this.func.template(packet, this.config.routes[route.puppet_key]);
       return new Promise((resolve, reject) => {
-        if (!packet.q.text) return resolve(this._messages.notext);
-        if (!param && route.puppet_key) this.question(`${route.puppet} ${question_puppet}`)
-        this.question(`${route.call} ${question}`).then(answer => {
-          return this.question(`#feecting parse ${answer.a.text}`);
-        }).then(parsed => {
+        this.question(`#github issue:${agent.key} ${packet.q.text}`).then(issue => {
           return resolve({
-            text: parsed.a.text,
-            html: parsed.a.html,
-            data: parsed.a.data,
-          });
+            text: issue.a.text,
+            html: issue.a.html,
+            data: issue.a.data,
+          })
         }).catch(err => {
           return this.error(err, packet, reject);
         });
       });
-    },
-  },
-  methods: {
-    /**************
-    func: chat
-    params: packet
-    describe: The chat relay interface to talk with the @api and @ui
-    ***************/
-    chat(packet) {
-      return this.func.chat(packet);
     },
 
     /**************
@@ -139,7 +76,7 @@ const DEVELOPMENT = new Deva({
     describe: Return a system id to the user from the :name:.
     ***************/
     uid(packet) {
-      return Promise.resolve({text:this.uid()});
+      return Promise.resolve(this.uid());
     },
 
     /**************
@@ -148,7 +85,7 @@ const DEVELOPMENT = new Deva({
     describe: Return the current status of the :name:.
     ***************/
     status(packet) {
-      return this.status();
+      return Promise.resolve(this.status());
     },
 
     /**************
@@ -158,7 +95,7 @@ const DEVELOPMENT = new Deva({
     ***************/
     help(packet) {
       return new Promise((resolve, reject) => {
-        this.lib.help(packet.q.text, __dirname).then(help => {
+        this.help(packet.q.text, __dirname).then(help => {
           return this.question(`#feecting parse ${help}`);
         }).then(parsed => {
           return resolve({
@@ -172,10 +109,10 @@ const DEVELOPMENT = new Deva({
   },
   onDone(data) {
     this.listen('devacore:question', packet => {
-      if (packet.q.text.includes(this.vars.trigger)) return this.func.dev_question(packet);
+      if (packet.q.text.includes(this.vars.trigger)) return; this.func.dev_question(packet);
     });
     this.listen('devacore:answer', packet => {
-      if (packet.a.text.includes(this.vars.trigger)) return this.func.dev_answer(packet);
+      if (packet.a.text.includes(this.vars.trigger)) return; this.func.dev_answer(packet);
     });
     return Promise.resolve(data);
   },

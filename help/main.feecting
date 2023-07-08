@@ -1,11 +1,14 @@
+image: ::agent_avatar::
+
 ## Development Deva
 
 p:This is the main help file for Development Deva. Providing support to deva.world.
 
-id: 3801225130571
-key: development
-name: Development Deva
-describe: Providing support to deva.world.
+id: ::agent_id::
+key: #::agent_key::
+name: ::agent_name::
+emoji: ::agent_emoji::
+describe: ::agent_describe::
 
 ### Methods
 
@@ -18,4 +21,10 @@ p:Return the status for the Development Deva.
 cmd:#development help
 p:Get help using the Development Deva
 
-p:Copyright (c)2023 Quinn Michaels
+---
+
+#color = ::agent_color::
+#bgcolor = ::agent_bgcolor::
+#bg = ::agent_background::
+
+copyright: (c)2023 Quinn Michaels

@@ -22,17 +22,16 @@
           }
         }
       },
-      "voice": {
-        "speech": "Joey",
-        "speed": 1
-      },
       "profile": {
         "name": "Development Deva",
         "describe": "The Development Deva",
         "emoji": "/public/devas/deva/emoji.png",
         "avatar": "/public/devas/deva/avatar.png",
         "background": "/public/devas/deva/background.png",
-        "gender": "male"
+        "color": "#fbb14e",
+        "bgcolor": "black",
+        "gender": "deva",
+        "voice": "Matthew"
       }
     },
     "vars": {
@@ -46,24 +45,10 @@
         "error": "💣 ERROR!"
       },
       "trigger": "@DEVELOPMENT",
-      "route": "api",
-      "template": {
-        "header": {
-          "call": "#docs view devas/development/main:header",
-          "begin": "::BEGIN:HEADER",
-          "end": "::END:HEADER"
-        },
-        "footer": {
-          "call": "#docs view devas/main:footer",
-          "begin": "::BEGIN:FOOTER",
-          "end": "::END:FOOTER"
-        },
-        "content": {
-          "greeting": "#docs view devas/development/main:greeting",
-          "signature": "#docs view devas/development/main:signature",
-          "begin": "::BEGIN:DEVELOPMENT",
-          "end": "::END:DEVELOPMENT"
-        }
+      "context": {
+        "uid": "Development Deva generating uid",
+        "status": "Development Deva getting status",
+        "help": "Development Deva asking for help"
       }
     }
   }
