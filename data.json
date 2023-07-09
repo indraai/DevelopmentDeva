@@ -46,9 +46,12 @@
       },
       "trigger": "@DEVELOPMENT",
       "context": {
-        "uid": "Development Deva generating uid",
-        "status": "Development Deva getting status",
-        "help": "Development Deva asking for help"
+        "uid": "generating uid",
+        "status": "getting status",
+        "info": "getting info",
+        "feature": "accessing feature",
+        "issue": "has issues",
+        "help": "asking for help"
       }
     }
   }
